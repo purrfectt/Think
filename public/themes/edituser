@@ -1,0 +1,81 @@
+<include file="../Public/_header" />
+<div class="so_main">
+  <div class="page_tit"><eq name="type" value="edit">EditUser<else/>AddUser</eq></div>
+  
+  <eq name="type" value="add">
+  <form method="post" action="{:U('admin/User/doAddUser')}">
+  <else/>
+  <form method="post" action="{:U('admin/User/doEditUser')}">
+  	<input type="hidden" name="uid" value="{$uid}" />
+  </eq>
+  
+  <div class="form2">
+    <dl class="lineD">
+      <dt>Email：</dt>
+      <dd>
+        <input name="email" id="email" type="text" value="{$email}"><span>*</span>
+        <p>User进行Log inOf帐号</p>
+    </dl>
+	
+    <dl class="lineD">
+      <dt>Password：</dt>
+      <dd>
+        <input name="password" id="password" type="text"><span>*</span>
+        <p>User进行Log inOfPassword</p>
+    </dl>
+	
+    <dl class="lineD">
+      <dt>昵称：</dt>
+      <dd>
+        <input name="uname" id="uname" type="text" value="{$uname}"><span>*</span>
+        <p>2-10位个中英文、数Characters、下划线和中划线组成</p>
+    </dl>
+    
+    <dl class="lineD">
+      <dt>个性域Names：</dt>
+      <dd>
+        <input name="domain" id="domain" type="text" value="{$domain}">
+        <p>个性域Names</p>
+    </dl>
+    
+    <dl class="lineD">
+      <dt>Gender：</dt>
+      <dd>
+        <label><input name="sex" type="radio" value="1" <eq name="sex" value="1">checked</eq>>Male</label>
+        <label><input name="sex" type="radio" value="0" <neq name="sex" value="1">checked</neq>>Female</label>
+    </dl>
+
+        <volist name="credit_type" id="ct">
+	<dl class="lineD">
+      <dt>{$ct.alias}：</dt>
+      <dd>
+        	<input name="{$ct.name}" type="text" value="{$user_credit[$ct['name']]['credit']}" />
+      </dd>
+    </dl>
+        </volist>
+	
+	<dl class="lineD">
+      <dt>YesNoActivation：</dt>
+      <dd>
+        <label><input name="is_active" type="radio" value="1" <eq name="is_active" value="1">checked</eq>>Yes</label>
+        <label><input name="is_active" type="radio" value="0" <neq name="is_active" value="1">checked</neq>>No</label>
+    </dl>
+	 
+	<dl>
+      <dt>User组：</dt>
+      <dd>
+        <php>if($type=='add'){</php>
+        {:W('SelectUserGroup')}
+        <php>}else {</php>
+        {:W('SelectUserGroup', array('uid'=>$uid))}
+        <php>}</php>
+      </dd>
+    </dl>
+	
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="Determine" />
+    </div>
+  </div>
+  </form>
+</div>
+<include file="../Public/_footer" />
