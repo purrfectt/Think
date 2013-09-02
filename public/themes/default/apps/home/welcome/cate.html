@@ -1,0 +1,156 @@
+
+
+		 <php>
+		 $P_NODE=M()->query("SELECT * FROM " . C('DB_PREFIX') . "plugins_node WHERE (node_id<>'11' AND node_id<>'6')  ORDER BY node_seq DESC" );
+		
+		 
+		 
+		 
+		 foreach ($P_NODE as $n){
+		 </php>
+		 <div class="padding10"></div>
+		 <div class="mainbody wrap">
+		 
+		 <div class="gather-item cf">
+		 			<h2><span class="greenline size_3"><span class="item-title">Everyone Loves<i><a href="{:U('home/Tag/index', array('node_id'=>$n['node_id']))}"><php>echo $n['node_name'];</php></a></i></span></span>
+					<p class="f_more"><a href="{:U('home/Tag/index', array('node_id'=>$n['node_id']))}">More &gt;&gt;</a></p>
+					</h2>
+					<ul style="height: 170px;" class="goods_list clear_in r5">
+					<php>
+			$P_LIST2=M()->query("SELECT * FROM " . C('DB_PREFIX') . "plugins_list WHERE node_id='".$n['node_id']."' ORDER BY list_seq DESC LIMIT 3");
+			foreach ($P_LIST2 as $list2){
+			
+				$P_LABEL2=M()->query("SELECT L.* FROM " . C('DB_PREFIX') . "plugins_list_label LL INNER JOIN " . C('DB_PREFIX') . "plugins_label L ON LL.label_id=L.label_id WHERE (LL.list_id='".$list2['list_id']."' AND L.label_hot=1) ORDER BY L.label_seq DESC,L.label_id DESC  LIMIT 2");
+				
+				if($list2['is_nolink']==0){
+				$list_id=$list2['list_id'];
+				}else{
+				$list_id='0';
+				}
+				
+				foreach ($P_LABEL2 as $label2){
+							
+				
+							
+				$plugins_tag  =M ( 'weibo' )->where ("node_id='".$list2[node_id]."' AND transpond_id =0 AND isdel=0 AND isrecom=1 AND (type_data LIKE '%$label2[label_name]%' OR content LIKE '%$label2[label_name]%')")->limit(1)->order('weibo_id DESC')->findAll();
+						
+						foreach ($plugins_tag as $t){
+							
+							$weibo['weibo_id']=$t['weibo_id'];
+							$type_data = M('weibo')->getField('type_data',$weibo);
+							$type = M('weibo')->getField('type',$weibo);
+							$title = unserialize($type_data) ;
+								
+							if( $type == 1 ){
+							
+									$hasMore = false;
+									if(!isset($title['picurl'])){
+										$hasMore = true;
+									}
+									
+									if($hasMore){
+										$st_arr = '';
+										$n=0;
+										foreach ($title as $typedata2 ) { 
+											if($typedata2['type']=='upyun'){
+											$localpic2= $domain.$typedata2[thumbhaibaourl];
+											}else{
+											$localpic2= '__UPLOAD__/'.$typedata2[thumbhaibaourl];
+											}
+											
+					
+					  					     ++$n; 
+											 if($n==1){
+											 break ;
+											 
+											 }
+					  				
+					  					}
+									}else{
+										if($title['type']=='upyun'){
+											$localpic2= $domain.$title[thumbhaibaourl];
+										}else{
+											$localpic2= '__UPLOAD__/'.$title[thumbhaibaourl];
+										}
+					  				}
+									
+							}else if( $type == 5 ){
+										if($title['type']=='upyun'){
+											$localpic2=$domain.$title[middle_pic];
+										}else{
+											$localpic2= $title[middle_pic];
+										}
+							
+							
+									
+							}
+							
+
+								
+						}
+								
+		 	</php>
+                        <li style="margin:0;" class="fl goods-show"><a title="<php>echo $label2['label_name'];</php>" href="{:U('home/Tag/index',array('node_id'=>$list2['node_id'],'list_id'=>$list_id,'label_id'=>$label2['label_id'],'order'=>'new'))}" target="_blank"><img alt="<php>echo $label2['label_name'];</php>" src="<php>echo $localpic2;</php>"><span><php>echo $label2['label_name'];</php></span></a></li>
+						
+				<php>
+				$localpic2='';
+				
+				}
+				
+			}
+			</php> 		
+								</ul>
+					<div class="more_goods clear_in">
+					<php>
+			$P_LIST=M()->query("SELECT * FROM " . C('DB_PREFIX') . "plugins_list WHERE node_id='".$n['node_id']."' ORDER BY list_seq DESC LIMIT 4");
+			
+			foreach ($P_LIST as $list){
+			if($list['is_nolink']==0){
+		$list_id2=$list['list_id'];
+		}else{
+		$list_id2='';
+		}
+		 	</php>
+					<dl class="clear_in">
+        <dt><a href="{:U('home/Tag/index',array('node_id'=>$list['node_id'],'list_id'=>$list_id2,'order'=>'new'))}" target="_blank"><php>echo $list['list_name'];</php></a></dt>
+    <dd> 
+        <p>
+           <php>
+							$P_LABEL=M()->query("SELECT L.* FROM " . C('DB_PREFIX') . "plugins_list_label LL INNER JOIN " . C('DB_PREFIX') . "plugins_label L ON LL.label_id=L.label_id WHERE (LL.list_id='".$list['list_id']."' AND L.label_hot=1) ORDER BY L.label_seq DESC,L.label_id DESC  LIMIT 6");
+							
+							if($list['is_nolink']==0){
+		$list_id=$list['list_id'];
+		}else{
+		$list_id='0';
+		}
+							
+							foreach ($P_LABEL as $label){
+							
+							
+								
+							</php>
+<a target="_blank" href="{:U('home/Tag/index',array('node_id'=>$list['node_id'],'list_id'=>$list_id,'label_id'=>$label['label_id'],'order'=>'new'))}" class=""><php>echo $label['label_name'];</php></a>  
+<php>
+			}
+		</php> 
+
+        </p>           
+    </dd>
+</dl>					
+<php>
+			}
+			</php>
+					</div>
+		 
+		 
+
+		 	
+		
+		 </div>
+		 
+		 </div>
+		
+	<php>
+			}
+			</php>
+
