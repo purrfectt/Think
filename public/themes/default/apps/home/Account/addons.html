@@ -1,0 +1,30 @@
+<include file="__THEME__/header" />
+<link href="../Public/account.css" rel="stylesheet" type="text/css" />
+<link href="../Public/js/setavatar/css/imgareaselect-default.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="../Public/js/account.js"></script>
+<style type="text/css">
+<!--
+.wrap { margin: auto;width:982px;}
+-->
+</style>
+<div class="content_holder wrap">
+<div class="content wrap"><!-- Content begin  --> 
+  
+  <div class="main no_l"> <!-- Right Content begin  -->
+    <div class="mainbox">
+      <div class="mainbox_appC no_r">
+    <include file="_tab" />
+    <!-- Switch Labels end  -->
+    <div class="mainbox_C_C">
+		{:Addons::addonsHook($_GET['addon'], $_GET['hook'])}
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Right Content end  -->
+  <div class="c"></div>
+</div>
+</div>
+<!-- Content end --> 
+<include file="__THEME__/footer" />
