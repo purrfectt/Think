@@ -1,0 +1,69 @@
+<include file="__THEME__/header" />
+<link href="../Public/account.css" rel="stylesheet" type="text/css" />
+<link href="../Public/css/weiboshow.css" rel="stylesheet" type="text/css" />
+
+<script>
+	var _HOST_ = 'http://{$_SERVER['HTTP_HOST']}';
+</script>
+<script type="text/javascript" src="../Public/js/webpageComment.js"></script>
+<style>
+.wrap { margin: auto;width:982px;}
+</style>
+<div class="content_holder wrap">
+<div class="content wrap"><!-- Content begin  --> 
+  <div class="main no_l"> <!-- Right Content begin  -->
+    <div class="mainbox">
+      <div class="mainbox_appC no_r">
+        <div class="tab-menu">
+            <include file="../Public/_toolTab" />
+        </div>
+    <!-- Switch Labels end  -->
+    <div class="mainbox_C_C">
+		<div class="setItems">
+        <div class="side_basicPreview">
+        	<h4>Preview Effect</h4>
+        	<Preview Effect</h4>
+        	<div id="weiboshow"></div>
+        </div>
+		<div class="side_basicSet">
+        	<h4>Basic Settings</h4> 
+            <div class="box_basicSet">
+            	<dl class="list_setSize">
+                    <dt>Set Size</dt>
+                    <dd>Width <input id="width" type="text" style="width:50px"  class="ml5 mr5"/>px<dd>
+                    <dd>Width <span id="wh_error">190-1024px</span><dd>
+                    <dd><label><input id="autowidth" type="checkbox" style="vertical-align:middle" />Width automatically adapts</label><dd>
+                </dl>
+                <h4 class="mt10">Appearance Color Scheme</h4>
+                <ul id="template_skins" class="list_showSkin">
+                    <li class="on"><a href="javascript:;" class="skin01"></a></li>
+                    <li><a href="javascript:;" class="skin02"></a></li>
+                    <li><a href="javascript:;" class="skin03"></a></li>
+                    <li><a href="javascript:;" class="skin04"></a></li>
+                    <li><a href="javascript:;" class="skin05"></a></li>
+                    <li><a href="javascript:;" class="skin06"></a></li>
+                    <li><a href="javascript:;" class="skin07"></a></li>
+                    <li><a href="javascript:;" class="skin08"></a></li>
+                    <li><a href="javascript:;" class="skin09"></a></li>
+                    <li><a href="javascript:;" class="skin10"></a></li>
+                </ul>
+            </div>
+        	<h4 class="mt10">Setup is complete, access to embedded Code:</h4> 
+            <div class="box_Embed_code">
+            <textarea id="input_copyhtml" name="" cols="" rows="3" style="width:500px;height:100px;overflow:hidden;" class="text">
+            </textarea>
+            <div cl
+            <div class="mt10"><input id="copy" type="button" value="Copy Code" class="btn_w mr5" style="vertical-align:middle" />Copy Code Add To Your Website/div>
+        </div>
+        </div>
+		  
+      </div><div class="c"></div>
+    </div>
+  </div>
+  <!-- Right Content end  -->
+  <div class="c"></div>
+</div>
+</div>
+</div>
+<!-- Content end --> 
+<include file="__THEME__/footer" />
