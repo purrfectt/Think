@@ -1,0 +1,249 @@
+<include file="__THEME__/header" />
+<link href="../Public/account.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+<!--
+.wrap { margin: auto;width:982px;}
+.header-1{ display:none;}
+a.longbutton {
+position: relative;
+cursor: move;
+margin-right: 30px;
+font-size:18px;
+z-index:89;
+}
+a.iebutton{
+margin-right: 30px;
+font-size:18px;
+color:#B20000;
+text-decoration:underline!important;
+}
+.main { _float:left;}
+.logo_z{ margin:auto 0 0 0 !important;}
+.mainbox_C { background:none;}
+.no_r .feedBox {
+	margin-right: 0;
+}
+.feedBox {
+    padding: 0 15px;
+	overflow: inherit;
+}
+.right_list_def, .right_list_on{ text-align:center;}
+-->
+</style>
+<!--<php>     
+if(strpos($_SERVER["HTTP_USER_AGENT"],"MSIE 8.0"))       
+echo "Internet Explorer 8.0";     
+else if(strpos($_SERVER["HTTP_USER_AGENT"],"MSIE 7.0"))       
+echo "Internet Explorer 7.0";       
+else if(strpos($_SERVER["HTTP_USER_AGENT"],"MSIE 6.0"))       
+echo "Internet Explorer 6.0";       
+else if(strpos($_SERVER["HTTP_USER_AGENT"],"Firefox/3"))       
+echo "Firefox 3";            
+else if(strpos($_SERVER["HTTP_USER_AGENT"],"Chrome"))       
+echo "Google Chrome";       
+else if(strpos($_SERVER["HTTP_USER_AGENT"],"Safari"))       
+echo "Safari";       
+else if(strpos($_SERVER["HTTP_USER_AGENT"],"Opera"))       
+echo "Opera";       
+else echo $_SERVER["HTTP_USER_AGENT"];       
+</php> -->
+
+
+<div class="mainbox wrap"><!-- Content begin  --> 
+  <div class="mainbox_L">	
+  <div class="right_list">
+  		<div class="right_list_on"><div><a href="{:U('home/Caiji/tools')}">Collection Tools</a></div></div>
+		<volist name="list" id="vo">
+		<php>$css_class = $vo['document_id'] == $detail['document_id'] ? 'right_list_on' : 'right_list_def';</php>
+        <div class="right_list_def"><div><a href="{:U('home/Public/document',array('id'=>$vo['document_id']))}">{$vo.title}</a></div></div>
+		</volist>
+  </div>
+  </div>
+  <div class="main mainhbzm"> <!-- Right Content begin  -->
+    <div class="overflowB">
+      <div class="mainbox_C no_r">
+
+	<div class="mainbox_C_C" style="padding-top:20px;">
+	<div class="feedBox">
+	      
+	
+				<div class="tutor" onmouseover="this.className='tutor hover'" onmouseout="this.className='tutor'"><a style="text-decoration: none;" href="javascript:void(function(d,a,c,b){a[c]&&typeof a[c].showValidImages=='function'?a[c].showValidImages():(siteDomain='localhost',b=a.createElement('script'),b.id='36hua_script',b.setAttribute('charset','utf-8'),b.src='__PUBLIC__/pin/js/pinpick.js?'+Math.floor(+new Date/1E7),a.body.appendChild(b))}(window,document,'36hua'));" 
+		<php>if(strpos($_SERVER["HTTP_USER_AGENT"],"MSIE")){ </php>
+		class="iebutton">Collected{$ts['site']['']}</a>← 右键ClickLinks ， Choose"AddTo收藏夹"
+		
+		 <php>}</php>
+		 <php>if(strpos($_SERVER["HTTP_USER_AGENT"],"Firefox")){ </php>   
+		class="longbutton concern"> Collected{$ts['site']['']}<span class="drag-arrow"></span></a>← Drag this Button onto your browser bookmarks bar  
+		 <php>}</php>
+		 
+		 <php>if(strpos($_SERVER["HTTP_USER_AGENT"],"Chrome")){ </php>  
+		class="longbutton concern"> Collected{$ts['site']['']}<span class="drag-arrow"></span></a>← Drag this Button onto your browser bookmarks bar
+		  <php>}</php>
+		</div>
+		
+		
+		<php>if(strpos($_SERVER["HTTP_USER_AGENT"],"MSIE")){ </php>
+	    <div style="margin-top:40px;">
+		<div class="pb10" style="font-size:14px;border-bottom:1px dotted #ccc;">
+		<p>PS：When you browse the web，Click“Collected{$ts['site']['']}”Tool will save the picture to the above website.{$ts['site']['']}。</p>
+		  <p style="padding-top:20px;">您也可以Click下方Links 下载{$ts['site']['']}采集器，具体Operating方法Yes：</p>
+		  <div style="line-height:200%;">
+            <p>1、Click下方Links 下载 File ；</p>
+		    <p>2、Success下载之后，解压完后双击该软件，在弹出的确认提示中ClickDetermine，（杀毒软件或许会有 Security 提示，请放心，该软件为绿色软件，绝对 Security 哦） etc. Determine之后，用IE浏览Web Page 时，右键Click Picture ，菜Single 就会出现&quot;Collected{$ts['site']['']}&quot;Characters样选项。</p>
+		    <p><img src="__PUBLIC__/pin/img/help_001.gif" /></p>
+		    <p>3，When you browse the web，在需要采集的页面空白处右键，Click&quot;Collected{$ts['site']['']}&quot;Tool will save the picture to the above website.{$ts['site']['']}Albums中。</p>
+		    <p style="padding-top:20px;"><a href="__PUBLIC__/pin/pick.rar" class="btn-xlarge-follow">Click此处下载</a></p>
+		    </div>
+		  </div>
+	      <div class="inner pt10">
+		          <h3>Q：My Browser 找不To收藏夹栏，怎么办？</h3>
+		          <p>答：打开菜Single “View-工具栏”，勾选“收藏夹栏”</p>
+		          <img src="__THEME__/images/guide_tab2_01.jpg" height="280px" />
+		          <h3 class="pt10">Q：IYesIEUser，I明明 Have 收藏Success，但My收藏栏里没有“Collected{$ts['site']['']}”</h3>
+		          <p>答：请在Save书签时，SaveTo<img src="__THEME__/images/textimg_01.jpg" />而不Yes<img src="__THEME__/images/textimg_01-05.jpg" /></p>
+		          <img src="__THEME__/images/guide_st2_tab3_001.jpg" height="240px" /></div>
+	      </div>
+	    <php>}</php>
+		
+	<php>if(strpos($_SERVER["HTTP_USER_AGENT"],"Firefox")){ </php>      
+	
+	
+	    <div style="margin-top:30px;">
+		<div class="pb10" style="font-size:14px;border-bottom:1px dotted #ccc;">PS：When you browse the web，Click“Collected{$ts['site']['']}”Tool will save the picture to the above website.{$ts['site']['']}。</div>
+	      <div class="inner pt10">
+	        <h3>Q：My Browser 找不To书签栏，怎么办？</h3>
+	        <p>答：打开菜Single “View-工具栏”，勾选“书签工具栏”</p>
+	        <img src="__THEME__/images/guide_tab2_04.jpg" height="280px" /></div>
+	      </div>
+	    <php>}</php> 
+		
+		
+		
+		
+		 <php>if(strpos($_SERVER["HTTP_USER_AGENT"],"Chrome")){ </php>  
+
+		
+		<div style="font-size:18px;">Can't Find the BookMark ? Try Ctrl + Shift + B</div>
+	    <div style="margin-top:30px;">
+		<div class="pb10" style="font-size:14px;border-bottom:1px dotted #ccc;">PS：When you browse the web，Click“Collected{$ts['site']['']}”Tool will save the picture to the above website.{$ts['site']['']}。</div>
+	      <div class="inner pt10">
+		          <h3>Q：My Browser Can't find the Bookmark Bar , What do i Do ？</h3>
+		          <p>A: Open the menu "Bookmarks", check "Show Bookmarks Bar”</p>
+		          <img src="__THEME__/images/guide_tab2_05.jpg" height="280px" /></div>
+	      </div>
+	    <php>}</php> 
+		
+		
+		
+	</div>
+	</div>
+	
+	
+    <!-- Switch Labels end  -->
+       </div> 
+		
+    </div>
+	<div class="pb10 "></div>
+	 <div class="overflowH clearfix" style="width:100%">
+	<div class="mainbox_C_C">
+    
+		<div class="feedBox">
+          <div class="setItems">
+            <div class="setFold setUnfold" rel="IE" >
+              <h2>IE Browser</h2>
+             
+            </div>
+            <div style="display: block;" class="setItemsInfo">
+		   
+		      <div>
+		        <div class="inner pt10">
+		          <h3>Q：My Browser Can't Find The Favourites Bar </h3>
+		          <p>A: Open the menu "View-Toolbars", select "Favorites Bar”</p>
+		          <img src="__THEME__/images/guide_tab2_01.jpg" height="280px" />
+		          <h3 class="pt10">Q：I am a IEUser, I obviously have collected successfully , but My favorite bar has no“Collected" Bookmark{$ts['site']['']}”</h3>
+		          <p>A: Please save the bookmark , Otherwise just Stop Using IE cause it clearly sucks .<img src="__THEME__/images/textimg_01.jpg" />Instead Of<img src="__THEME__/images/textimg_01-05.jpg" /></p>
+		          <img src="__THEME__/images/guide_st2_tab3_001.jpg" height="240px" /></div>
+	          </div>
+            </div>
+          </div>   
+          <div class="setItems">
+            <div class="setFold setUnfold" rel="Firefox" >
+              <h2>Firefox Browser  Firefox</h2>
+             
+            </div>
+            <div style="display: block;" class="setItemsInfo">
+		   
+		     <div class="inner pt10">
+	        <h3>Q：My browser can not find To bookmark bar</h3>
+	        <p>A: Open the menu "View-Toolbars", check the "Bookmarks Toolbar”</p>
+	        <img src="__THEME__/images/guide_tab2_04.jpg" height="280px" /></div>
+          </div>  
+		  
+		  
+		
+          <div class="setItems pb10">
+            <div class="setFold setUnfold" rel="Google" >
+              <h2>Google Browser Google Chrome</h2>
+             
+            </div>
+            <div style="display: block;" class="setItemsInfo">
+		   
+		      <div>
+		        <div class="inner pt10">
+		          <h3>Q：My browser can not find To Bookmark Bar</h3>
+		          <p>A: Open the menu "Bookmarks", check "Show Bookmarks Bar"</p>
+		          <img src="__THEME__/images/guide_tab2_05.jpg" height="280px" /></div>
+	          </div>
+          </div>  
+		  
+		  
+	      </div>
+		  </div>
+  </div>
+  </div>
+  </div>
+  <!-- Right Content end  -->
+  <div class="c"></div>
+</div>
+</div>
+<!-- Content end --> 
+<include file="__THEME__/footer" />
+
+<script>
+	$(document).ready(function(){
+		var hs = document.location.hash;
+		var up_pic_width =50;
+		var up_pic_height =50;
+		
+		changeModel( hs.replace('#','') );
+		$('.setFold').click(function(){
+			if( $(this).attr('class')=='setFold' ){
+				changeModel( $(this).attr('rel') );
+			}else{
+				$(this).removeClass('setUnfold');
+				$(this).next('.setItemsInfo').hide();
+			}
+			location.href='#'+$(this).attr('rel');
+		})
+		
+		//Monitoring Form Submission
+	  
+	
+	});
+	
+	
+
+	
+	//Switch Operating module
+	function changeModel( type ){
+		var t = type || 'base';
+		$('.setFold').removeClass('setUnfold');
+		$('.setItemsInfo').hide();
+		var handle = $('div[rel="'+t+'"]');
+		handle.addClass('setUnfold');
+		handle.next('.setItemsInfo').show();
+	}
+	
+	
+</script> 
+
