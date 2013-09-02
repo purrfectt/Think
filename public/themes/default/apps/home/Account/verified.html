@@ -1,0 +1,166 @@
+<include file="__THEME__/header" />
+<link href="../Public/account.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../Public/js/avatar/avatar.js"></script>
+<script type="text/javascript" src="../Public/js/account.js"></script>
+<style type="text/css">
+<!--
+.wrap { margin: auto;width:982px;}
+-->
+</style>
+
+<div class="mainbox wrap"><!-- Content begin  --> 
+  <div class="floatleft tleft">	
+  <include file="__THEME__/apps" />
+  </div>
+  <div class="main"> <!-- Right Content begin  -->
+    <div class="overflowH">
+      <div class="mainbox_C no_r">
+    <!-- page_title end -->
+    <div class="tab-menu"><!-- Switch Labels begin  -->
+      <ul>
+        <volist id="vo" name="accountmenu">
+      		
+      		<li><a href="{:U('home/Account/'.$vo['url'])}" <php>if(ACTION_NAME==$vo['url']){</php>class="on"<php>}</php> ><span>{$vo.name}</span></a></li>
+      	</volist>
+      </ul>
+    </div>
+    <!-- Switch Labels end  -->
+
+    <div class="mainbox_C_C">
+    <div class="padding20">
+    <div class="right_box">
+    完善您Of个人 Data 以便您Of朋友快速Of找To您！！
+    </div>
+    </div>
+		<div class="feedBox">
+		  <!-- Modify Password -->
+          <div class="setItems">
+            <div class="setFold setUnfold" rel="verified" >
+              <h2>认证Stars Data <span id="verified_tips" class="cRed" style="font-weight:normal;"><php>
+              	  if ('1' == $verified['verified']) {</php>(认证Success)</span><php>
+              	  } else if ('0' === $verified['verified']) {
+              	  </php>(认证中……)<php>}</php></span></h2>
+            </div>
+            <div style="display: block;" class="setItemsInfo">
+		      <div class="data"><!-- Modify Password begin  -->
+		            <form action="{:U('home/Account/doVerified')}" method="post" id="form_verified" class="form_validator">
+		                <ul>
+		                <li>
+		                    <div class="left alR" style="width: 15%;">真实姓Names：<span class="cRed pr5">*</span></div>
+		                    <div class="left" style="width: 50%;">
+		                      <div class="left mr5">
+		                          <input name="realname" type="text" value="{$verified.realname}" class="text" style="width:200px;" onfocus="this.className='text2'" onblur="this.className='text'" /><br />
+		                          不会公开显示
+		                      </div>
+		                    </div>
+		                </li>
+		                <li>
+		                    <div class="left alR" style="width: 15%;"> Mobile 号：<span class="cRed pr5">*</span></div>
+		                    <div class="left" style="width: 50%;">
+		                      <div class="left mr5">
+		                          <input name="phone" type="text" value="{$verified.phone}" class="text" style="width:200px;" onfocus="this.className='text2'" onblur="this.className='text'" /><br />
+		                          不会公开显示
+		                      </div>
+		                    </div>
+		                </li>
+		                <li>
+		                    <div class="left alR" style="width: 15%;">认证 Data ：<span class="cRed pr5">*</span></div>
+		                    <div class="left" style="width: 50%;">
+		                      <div class="left mr5"><textarea name="reason" cols="40" rows="3" onfocus="this.className='text2'" onblur="this.className='text'">{$verified.reason}</textarea></div>
+		                    </div>
+		                </li>
+		                <li>
+		                	<div class="left alR" style="width: 15%;">&nbsp;</div>
+		                	<div class="left" style="width: 50%;">
+		                		<input type="hidden" name="id" value="{$verified.id}" />
+		                		<input type="button" id="btn_submit" class="btn_b" value="Save" onclick="return Modify Verified();" />
+		                	</div>
+		                	<div class="left" style="width: 20%;">&nbsp;</div>
+		                	<div class="left" style="width: 15%;">&nbsp;</div>
+		                </li>
+		                </ul>
+		            </form>
+		        </div><!-- Modify Password end  -->
+            </div>
+          </div>
+        <div class="c"></div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Right Content end  -->
+  <div class="c"></div>
+</div>
+<!-- Content end --> 
+<include file="__THEME__/footer" />
+
+<script>
+	$(document).ready(function(){
+		var hs = document.location.hash;
+		changeModel( hs.replace('#','') );
+		$('.setFold').click(function(){
+			if( $(this).attr('class')=='setFold' ){
+				changeModel( $(this).attr('rel') );
+			}else{
+				$(this).removeClass('setUnfold');
+				$(this).next('.setItemsInfo').hide();
+			}
+			location.href='#'+$(this).attr('rel');
+		})
+	});
+	
+	//Switch OperatingModule 
+	function changeModel( type ){
+		var t = type || 'verified';
+		$('.setFold').removeClass('setUnfold');
+		$('.setItemsInfo').hide();
+		var handle = $('div[rel="'+t+'"]');
+		handle.addClass('setUnfold');
+		handle.next('.setItemsInfo').show();
+	}
+
+	function Modify Verified(o)
+	{
+
+		var $btn_submit = $('#btn_submit');
+		var $realname = $('input[name="realname"]');
+		var $phone = $('input[name="phone"]');
+		var $reason = $('textarea[name="reason"]');
+		var realname = $realname.val();
+		var phone = $phone.val();
+		var reason = $reason.val();
+		var id = $('input[name="id"]').val();
+
+		if (!realname.match(/^[\u4e00-\u9fa5]+$|^[a-zA-Z\.·]+$/)) {
+			ui.error('请输入真实姓Names');
+			$realname.focus();
+			return false;
+		} else if (!phone.match(/^[\d]{11}$/)) {
+			ui.error('请输入 Mobile 号');
+			$phone.focus();
+			return false;
+		} else if (reason.length <= 0) {
+			ui.error('请输入认证原因');
+			$reason.focus();
+			return false;
+		}
+
+		<if condition="$verified['verified'] eq 1">
+		if (!confirm('Determine重新Apply for Certification？申请后您原有Of认证标识将被收回，通过后即可恢复。')) {
+			return false;
+		}
+		</if>
+
+		$btn_submit.attr('disabled','true');
+		$.post( U('home/Account/doVerified'),{realname:realname,phone:phone,reason:reason,id:id},function(txt){
+			if( 1 == txt ){
+				$("#verified_tips").html('(Success提交 Data ，请 etc. 待认证。)');
+				ui.success('OperatingSuccess');
+			}else{
+				ui.error('Operating Failed');
+			}
+			$btn_submit.removeAttr('disabled');			
+		});
+	}
+</script>
