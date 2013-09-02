@@ -1,0 +1,52 @@
+<include file="__THEME__/header" />
+<link href="../Public/account.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="../Public/js/account.js"></script>
+<style type="text/css">
+<!--
+.wrap { margin: auto;width:982px;}
+-->
+</style>
+<div class="content_holder wrap">
+<div class="content wrap"><!-- Content begin  --> 
+  <div class="main no_l"> <!-- Right Content begin  -->
+
+      <div class="mainbox">
+      <div class="mainbox_appC no_r">
+    <!-- page_title end -->
+    <include file="_tab" />
+    <!-- Switch Labels end  -->
+    <div class="mainbox_C_C">
+		<div class="setupBox">
+		  <!-- Modify Password -->
+          <div class="setItems" style=" margin:20px 0;">
+          <php>if($userDomain){</php>
+          <h3 class="mt10 mb10">Domain Names Of Personalized your address: </h3>
+         	  <div class="line_box mt10" style="padding:10px 5px">{:U('home/Space/index',array('uid'=>$userDomain))}</div>
+          <php>}else{</php>
+	          <div>
+	          <h3 class="mt10 mb10">Remember anything Of Microblogging customer address？To set personal Domain Names，Easier for friends to Remember！</h3>
+	          <ul class="lh20">
+	          <li>- You can enter 2-20 Of English or several Characters（Characters must be in English characters at the beginning of）</li>
+	          <li>－Save After Modify </li>
+	          </ul>
+	          <form action="" method="Post">
+	          	<div class="line_box mt10" style="padding:10px 5px">{:SITE_URL}/space/<input type="text" maxlength=20 name="domain" class="text">
+	          	<input type="submit" value="Save" class="N_but"></div>
+	          </form>
+	          </div>
+          <php>}</php>
+           </div>
+        <div class="c"></div>
+        </div>
+        </div>
+      </div>
+  </div>
+  </div>
+  <!-- Right Content end  -->
+  <div class="c"></div>
+</div>
+</div>
+<!-- Content end --> 
+<include file="__THEME__/footer" />
+
