@@ -1,0 +1,338 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.masonry.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.infinitescroll.js"></script>
+
+<style type="text/css">
+<!--
+.wrap { margin: auto;width:982px;}
+.item {
+  width: 223px;
+  float: left;
+  margin-bottom: 16px;
+
+}
+a.add_atn{
+    background: url("__THEME__/images/p_follow3.gif") no-repeat scroll 0 0 transparent;
+    color: #FFFFFF;
+    height: 20px;
+    line-height: 19px;
+    overflow: hidden;
+    text-align: center;
+	padding-left:0px;
+    width: 64px;
+}
+.btn_relation {
+  background: url("__THEME__/images/header_float.gif") no-repeat scroll 0 0 transparent;
+     color: #f69;
+    height: 20px;
+    line-height: 19px;
+    overflow: hidden;
+    text-align: center;
+	padding-right:0px;
+    width: 64px;
+}
+
+a.add_atn:hover {
+	text-decoration:none;
+}
+.btn_relation a{color:#f69;!important}
+.btn_relation2 {
+    margin-right: 0px;
+}
+.btn_relation span,.btn_relation2 span { display:none;}
+
+-->
+</style>
+<script type="text/javascript">
+$(function(){
+         var speed = 1000;
+         $("#container").masonry({
+            singleMode: true,
+            columnWidth: 242,
+            itemSelector: '.item',
+            animate: false,
+            animationOptions: {
+                duration: speed,
+                queue: false
+            }
+		
+                });
+		$(".haibao").hover(
+		function(){ $(this).addClass("hover"); },
+		function(){ $(this).removeClass("hover"); }
+		);
+        $("#container").infinitescroll({
+            navSelector : '#page_nav', // selector for the paged navigation
+            nextSelector : '#page_nav a', // selector for the NEXT link (to page 2)
+            itemSelector : '.item', // selector for all items you'll retrieve
+            loadingImg : '__THEME__/images/loader.gif',
+            donetext : ' Have To最后一页了',
+            debug: false,
+            errorCallback: function() {
+            // fade out the error message after 2 seconds
+            $('#infscr-loading').animate({opacity: .8},2000).fadeOut('normal');
+			
+            }},
+			
+            // call masonry as a callback.
+            function( newElements ) { $(this).masonry({ appendedContent: $(newElements)         });
+		$(".haibao").hover(
+		function(){ $(this).addClass("hover"); },
+		function(){ $(this).removeClass("hover"); }
+		);
+			}
+        );	
+});
+</script>
+<include file="../Public/top_reg" />
+<div class="content no_bg"><!-- Content begin  -->
+  <div class="wrap">
+  <h2 class="daren_t f16 mt10">Stars</h2>
+  <div class="box_shadow mt10 clearfix" style="width:982px;margin-bottom:15px;">
+  <ul class="s_i">
+				 <volist name="daren" id="vo"> 	 					
+					<li>
+					<div class="image" onmouseover="this.className='image hover'" onmouseout="this.className='image'">
+					<a href="{:U('home/Space/index',array('uid' => $vo['uid']))}" target="_blank">
+					<php>
+					$title=unserialize($vo['type_data']); 
+					$hasMore = false;
+									if(!isset($title['picurl'])){
+										$hasMore = true;
+									}
+									
+									if($hasMore){
+										$st_arr = '';
+										$n=0;
+										foreach ($title as $typedata2 ) { 
+											if($typedata2['type']=='upyun'){
+											$localpic= $domain.$typedata2[thumbmiddleurl];
+											}else{
+											$localpic= '__UPLOAD__/'.$typedata2[thumbmiddleurl];
+											}
+											
+					
+					  					++$n; 
+											 if($n==1){
+											 break ;
+											 
+											 }
+					  				
+					  					}
+									}else{
+										if($title['type']=='upyun'){
+										$localpic= $domain.$title[thumbmiddleurl];
+										}else{
+										$localpic= '__UPLOAD__/'.$title[thumbmiddleurl];
+										}
+					  				}
+					  </php>
+					   <img src="{$localpic}" border="0" />
+						<div class="user">
+							<span class="locate">{$vo.uid|getUserName}</span>
+						</div>
+						
+					  </a>
+					 <div class="jiaguanzhu">
+				<session name="userInfo">							
+
+<span id="follow_list_{$vo.uid}">
+<php>if($mid!=$vo['uid']){</php>
+                        <script>document.write(followState('{:getFollowState($mid,$vo["uid"])}','dolistfollow',{$vo.uid}))</script>
+                        <php>}</php>
+						</span>
+
+<else/>	
+			 <a href="javascript:ui.quicklogin();" class="add_atn">加Followers</a>
+			 </session>	
+				
+				</div> 
+					</div>
+					
+				</li>	
+				</volist>			
+									</ul>
+  </div>
+  </div>
+  <div class="main no_l wrap">
+    <div class="floatleft mydaren">
+	<div class="hp_tab mt14">
+	<ul class="hp_lt">
+				<li class="active red"><a href="{:U('home/Daren/index')}">EntireStars</a></li>
+		<li class="left"><a href="{:U('home/User/searchtag')}">按Labels找朋友</a></li>
+			</ul>
+	<div class="hp_rt floatright red"><a target="_blank" href="{:U('home/Account/verified',array('addon'=>'UserVerified','hook'=>'home_account_show'))}">申请成为扮美Stars&gt;&gt;</a></div>
+</div>
+		 <div class="look_qiang" id="container"> 
+		 
+		 
+	  <volist name="list['data']" id="vo"> 
+		<if condition="$vo['type']">
+		 <div class="item">
+
+				
+                  <div class="haibao"  >
+                  		
+                        <div class="pic">
+						
+						<php>
+						if( $vo['transpond_id'] )
+						{
+								$weibo_id = $vo['transpond_id'];
+						}else{  
+						
+								$weibo_id = $vo['weibo_id'];
+						}
+								$bcdata = M('weibo')->where("weibo_id=" . $weibo_id . "")->findAll() ;
+								$title = unserialize($bcdata[0]['type_data']) ;
+								if( $vo['type'] == 1 ){
+									$hasMore = false;
+									if(!isset($title['picurl'])){
+										$hasMore = true;
+									}
+									
+									if($hasMore){
+										$st_arr = '';
+										foreach ($title as $typedata2 ) { 
+										if($typedata2['type']=='upyun'){
+										$localpic= $domain;
+										}else{
+										$localpic= '__UPLOAD__/';
+										}
+										
+										$st_arr.='<div class="ipic"><a href='.U('home/Space/detail',array('id' =>''. $vo[weibo_id].'')).' target="_blank"><img class="mycpic" width="'.$typedata2[mwidth].'" height="'.$typedata2[mheight].'" src="'.$localpic.$typedata2[thumbhaibaourl].'"></a></div>';
+										
+										}
+									}else{
+									if($title['type']=='upyun'){
+										$localpic= $domain;
+										}else{
+										$localpic= '__UPLOAD__/';
+										}
+									$st_arr='<div class="ipic"><a href='.U('home/Space/detail',array('id' =>''. $vo[weibo_id].'')).' target="_blank"><img class="mycpic" width="'.$title[mwidth].'" height="'.$title[mheight].'" src="'.$localpic.$title[thumbhaibaourl].'"></a></div>';
+									 
+									}
+									
+									
+									
+								}else if( $vo['type'] == 3 ){
+									if($title[flashimg])
+									{
+									$st_arr='<div class="ivideo"><a href='.U('home/Space/index',array('uid' =>''. $vo[uid].'')).' target="_blank"><img class="mycpic" width="'.$title[mwidth].'" height="'.$title[mheight].'" src="'.$title[flashimg].'"></a><div class="video_play"><a href='.U('home/Space/index',array('uid' =>''. $vo[uid].'')).' target="_blank"><img src="__THEME__/images/feedvideoplay.gif"></a></div></div>';
+									}else{
+									$st_arr='<div class="ivideo"><a href='.U('home/Space/index',array('uid' =>''. $vo[uid].'')).' target="_blank"><img width="127" height="95" src="__THEME__/images/nocontent.png"></a><div class="video_play"><a href='.U('home/Space/index',array('uid' =>''. $vo[uid].'')).' target="_blank"><img src="__THEME__/images/feedvideoplay.gif"></a></div></div>';
+									}
+								}else if( $vo['type'] == 4 ){
+									if($title[logo])
+									{
+									$zhuanji = get_zhuanji($title[logo],2);
+									$st_arr='<div class="imusic"><a href='.U('home/Space/index',array('uid' =>''. $vo[uid].'')).' target="_blank"><img class="mycpic" width="'.$title[mwidth].'" height="'.$title[mheight].'" src="'.$zhuanji.'"></a></div>';
+									}else{
+									$st_arr='<div class="imusic"><a href='.U('home/Space/index',array('uid' =>''. $vo[uid].'')).' target="_blank"><img width="127" height="95" src="__THEME__/images/nomusic.gif"></a></div>';
+									}
+								}else if( $vo['type'] == 5 ){
+									if($title['type']=='upyun'){
+											$localpic=$domain.$title[middle_pic];
+										}else{
+											$localpic= $title[middle_pic];
+										}
+									$st_arr='<div class="ipic"><a href='.U('home/Space/detail',array('id' =>''. $vo[weibo_id].'')).' target="_blank" title="'.$title[g_title] .'"><img  width="'.$title[mwidth].'" height="'.$title[mheight].'" src="'.$localpic.'"></a></div>';
+								}
+								echo $st_arr;
+						</php>
+						</div>
+						
+							
+							
+              <div class="pincontent clearfix daren_top">
+			  <div class="floatleft"><space uid="vo.uid">{uname}</space>{$vo.uid|getUserGroupIcon}</div>
+                <div class="floatright">
+				<session name="userInfo">							
+
+<span id="follow_list_{$vo.uid}">
+<php>if($mid!=$vo['uid']){</php>
+                        <script>document.write(followState('{:getFollowState($mid,$vo["uid"])}','dolistfollow',{$vo.uid}))</script>
+                        <php>}</php>
+						</span>
+
+<else/>	
+			 <a href="javascript:ui.quicklogin();" class="add_atn">加Followers</a>
+			 </session>	
+				
+				</div>
+				
+               
+			   
+              
+			    
+              </div>
+
+
+			<div class="pin_c2">
+			<php>
+
+						$userid = $vo['uid'];
+						$userdata = M('user_profile')->where("uid = $userid")->findAll() ;
+						if ($userdata){
+						foreach($userdata as $v){
+							$title=unserialize($v['data']);
+							
+						}
+						echo getShort($title['summary'],10);
+						}
+							 </php> 
+			
+			</div>
+				
+           
+                   
+                   
+                </div>
+				
+				
+				
+				
+				</div>
+				
+				</if>
+               </volist>
+	  </div>
+	  <div class="clearfix"></div>
+	<div class="seemore">
+
+	   	<p class="pager" id="page_nav">{$list.html}</p>
+       </div>
+      <div class="c"></div>
+        </div>
+		<div class="floatright paiming"><div class="right_box box_shadow mt14 p13">
+      <h2>本周小红心 List </h2>
+      <ul>
+        <volist id="vo" name="topfollow">
+          <php>$num = ($i>3)?$i."":"<span class='order'>".$i."</span>";</php>
+          <li class="lineD_topR">
+			<div class="floatleft">
+            <span style="width:22px;display: inline-block;" class="f14px avatar32 "><strong>{$num}</strong></span>
+			</div>
+			<div class="avatar32 floatleft">
+            <a href="{:U('home/space/index',array('uid'=>$vo['uid']))}"><img src="{$vo.uid|getUserFace}" style="width:32px;height:32px; vertical-align:middle" /></a>
+			</div>
+			<div class="floatleft">
+            <p><space uid="vo.uid" class="OverH ">{uname}</space></p>
+			<p>Share了<em>{$vo['uid']|getMiniNum}</em>个Treasures</p>
+	<p>收To<em>{$vo['uid']|getfavnum}</em>个Love<span class="icon3">&nbsp;</span></p>
+			</div>
+			
+          </li>
+        </volist>
+      </ul>
+	  <div class="clear"></div>
+    </div>
+	
+	</div>
+		
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="clearfix"></div>
+<!-- Content end --> 
+<include file="__THEME__/footer" /> 
