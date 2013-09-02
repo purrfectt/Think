@@ -1,0 +1,155 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.masonry.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.infinitescroll.js"></script>
+
+<style type="text/css">
+<!--
+.item {
+  width: 223px;
+  float: left;
+  margin:auto;
+
+}
+.mainbox {
+min-height: 800px;
+}
+-->
+</style>
+<script type="text/javascript">
+$(function(){
+         var speed = 1000;
+         $("#container").masonry({
+            singleMode: true,
+            columnWidth: 242,
+            itemSelector: '.item',
+            animate: false,
+            animationOptions: {
+                duration: speed,
+                queue: false
+            }
+		
+                });
+		$(".haibao").hover(
+		function(){ $(this).addClass("hover"); },
+		function(){ $(this).removeClass("hover"); }
+		);
+        $("#container").infinitescroll({
+            navSelector : '#page_nav', // selector for the paged navigation
+            nextSelector : '#page_nav a', // selector for the NEXT link (to page 2)
+            itemSelector : '.item', // selector for all items you'll retrieve
+            loadingImg : '__THEME__/images/loader.gif',
+            donetext : ' Have To最后一页了',
+            debug: false,
+            errorCallback: function() {
+            // fade out the error message after 2 seconds
+            $('#infscr-loading').animate({opacity: .8},2000).fadeOut('normal');
+			
+            }},
+			
+            // call masonry as a callback.
+            function( newElements ) { $(this).masonry({ appendedContent: $(newElements)         });
+		$(".haibao").hover(
+		function(){ $(this).addClass("hover"); },
+		function(){ $(this).removeClass("hover"); }
+		);
+			}
+        );	
+});
+</script>
+<include file="../Public/top_reg" />
+
+<div class="mt14 wrap">
+			<div class="floatright">
+			<a <if condition="$_GET['order'] eq ''">class="current2"</if>" href="{:U('home/Boards/index',array('ac_id'=>$_GET['ac_id']))}">Top </a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a <if condition="$_GET['order'] eq 'new'">class="current2"</if>" href="{:U('home/Boards/index',array('ac_id'=>$_GET['ac_id'],'order'=>'new'))}">Latest</a>
+			
+			</div>
+			<h2 class="f24 paddingtb20 left">
+			{$nowtitle}<if condition="$_GET['order'] eq ''">Top </if><if condition="$_GET['order'] eq 'new'">Latest</if>Albums
+			</h2>
+			
+				<div class="clear"></div>
+</div>
+<div class="content no_bg"><!-- Content begin  -->
+  <div class="main no_l wrap">
+    <div class="mainbox">
+	
+		 <div class="myboard" id="container">	
+		 	<php>if (!$_GET['p']){</php>
+		<div class="item">
+		 <div class="btop" style="margin: 14px 13px 0 0;width: 223px;">
+		 <div class="home_cf home_cf2">
+		 <div class="myli clearfix">
+
+			<php>if ($_GET['order']){</php>
+            <a href="{:U('home/Boards/index',array('type'=>$_GET['type'],'order'=>$_GET['order']))}" <if condition="$_GET['ac_id'] eq ''">class="current"</if>><em>Entire分类</em></a>
+			<php>}else{</php>
+			<a href="{:U('home/Boards/index')}" <if condition="$_GET['ac_id'] eq '' AND $_GET['web'] eq ''">class="current"</if>><em>Entire分类</em></a>
+			<php>}</php>
+			
+		 <volist name="acdisplay"  id="acd">
+   			
+			
+            <a <if condition="$_GET['ac_id'] eq $acd['ac_id']">class="current"</if> href="{:U('home/Boards/index', array('type'=>$_GET['type'],'order'=>$_GET['order'],'ac_id'=>$acd['ac_id']))}"><em>{$acd.title}</em></a>
+			
+       
+                </volist> 
+				</div>	
+		 </div>
+		 </div>
+		  
+		 </div> 
+		 <php>}</php>
+			<volist name="list['data']" id="vo">
+			<php>
+			$BoardCount = getCcCount($vo['bc_id']);
+			if( $BoardCount > 8 ){
+			</php>
+			<div class="item">
+				<div class="mbox mt15" onmouseover="this.className='mbox mt15 hover'" onmouseout="this.className='mbox mt15'" ><div class="followlist"><h3 class="mboxTitle"><span class="number floatright">Total{$vo.bc_id|getCcCount}张</span><span class="t" title="{$vo.title}">{$vo.title|getShort=###, 8, '...'}</span></h3><div class="list">
+				<a href="{:U('home/Space/board',array('uid'=>$vo['uid'], 'bc_id'=>$vo['bc_id']))}">
+				<php>if(getCcCount($vo['bc_id']) == 0 ){</php>
+				<img src="__THEME__/images/board_thumb.jpg">
+				<php>}else{</php>
+				{$vo.bc_id|getCcpic}
+				<php>}</php>
+				</a></div>
+				<div class="follow">
+				<session name="userInfo">
+					<php>if( $vo['uid'] == $mid ){</php><a class="longbutton concern" href="javascript:void(0);" onclick="setBcTab('{$vo.bc_id}')">Edit</a>
+				<php>} else {
+						if(guangzhuisno($vo['bc_id'])=='1'){</php>
+						<a w="t" href="javascript:void(0)" onclick="ui.fengmianok(this,'1','{$vo.fengcount}','{$vo.bc_id}','{$mid}','{$vo.uid|getUserFace}')" callback="weibo.deletfengmian('{$vo.bc_id}')" id="fengmianloe_{$vo.bc_id}" class="longbutton unconcern">已Followers(<span class="fengcount" id="fengmian_{$vo.bc_id}">{$vo.fengcount}</span>)</a></span>
+						
+						<php>}else{</php>
+						<a w="t" href="javascript:void(0)" onclick="ui.fengmianok(this,'1','{$vo.fengcount}','{$vo.bc_id}','{$mid}','{$vo.uid|getUserFace}')" callback="weibo.deletfengmian('{$vo.bc_id}')" id="fengmianloe_{$vo.bc_id}" class="longbutton concern">Followers(<span class="fengcount" id="fengmian_{$vo.bc_id}">{$vo.fengcount}</span>)</a></span>
+						
+						<php>}</php>
+						<span class="tou" id="fengmianicon_{$vo.bc_id}"></span>
+				<php>}</php>
+				<else/>
+				<a href="javascript:ui.quicklogin();" class="longbutton concern">Followers({$vo.fengcount})</a>
+				</session>
+				</div>
+				</div>
+				</div>
+				
+			</div>
+			
+			<php>}</php>
+           </volist>     
+        
+           </div>
+	  <div class="clearfix"></div>
+	<div class="seemore">
+
+	   	<p class="pager" id="page_nav">{$list.html}</p>
+       </div>
+      <div class="c"></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="clearfix"></div>
+<!-- Content end --> 
+<include file="__THEME__/footer" /> 
