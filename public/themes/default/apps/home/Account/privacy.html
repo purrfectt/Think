@@ -1,0 +1,163 @@
+<include file="__THEME__/header" />
+<link href="../Public/account.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="../Public/js/account.js"></script>
+<style type="text/css">
+<!--
+.wrap { margin: auto;width:982px;}
+-->
+</style>
+<div class="content_holder wrap">
+<div class="content wrap"><!-- Content begin  --> 
+  <div class="main no_l"> <!-- Right Content begin  -->
+    <div class="mainbox">
+      <div class="mainbox_appC no_r">
+    <!-- page_title end -->
+    <include file="_tab" />
+    <!-- Switch Labels end  -->
+    
+    <div class="mainbox_C_C">
+		<div class="setupBox">
+		  <!-- Modify Password -->
+          <div class="setItems">
+            <div class="setFold setUnfold" rel="base" >
+              <h2>Privacy Settings </h2>
+            </div>
+            <div style="display: block;" class="setItemsInfo">
+		      <div class="data"><!-- Modify Password begin  -->
+		            <form action="{:U('home/Account/privacy')}" method="post" class="form_validator" id="regform" oncomplete="false">
+		            <dl class="set_basic">
+		                <dd>
+		                    <label>Comment：</label>
+		                    <div class="left">
+		                      <div class="left mr5">Who Can Set Comment My Microblogging</div>
+		                    </div>
+		                </dd>
+		                <dd>
+		                    <label>&nbsp;</label>
+		                    <div class="left">
+		                      <div class="left mr5"><input type="radio" name='userset[weibo_comment]' value="0" <eq name="userset['weibo_comment']" value="0">checked="true"</eq> >所有人(不包括你Of黑NamesSingle User)</div><br>
+		                      <div class="left mr5"><input type="radio" name='userset[weibo_comment]' value="1" <eq name="userset['weibo_comment']" value="1">checked="true"</eq> >IFollowersOf人</div>
+		                    </div>
+		                </dd>
+		                <dd>
+		                    <label>Private Letter：</label>
+		                    <div class="left" style="width: 50%;">
+		                      <div class="left mr5">Who Can Set Send Private Letter</div>
+		                    </div>
+		                </dd>
+		                <dd>
+		                    <label>&nbsp;</label>
+		                    <div class="left">
+		                      <div class="left mr5"><input type="radio" name='userset[message]' value="0" <eq name="userset['message']" value="0">checked="true"</eq> >所有人(不包括你Of黑NamesSingle User)</div><br>
+		                      <div class="left mr5"><input type="radio" name='userset[message]' value="1" <eq name="userset['message']" value="1">checked="true"</eq> >IFollowersOf人</div>
+		                    </div>
+		                </dd>
+                        <dd>
+                            <label>Space ：</label>
+                            <div class="left" style="width: 50%;">
+                              <div class="left mr5">Who Can Set View MyPersonal Space </div>
+                            </div>
+                        </dd>
+                        <dd>
+                            <label>&nbsp;</label>
+                            <div class="left">
+                              <div class="left mr5"><input type="radio" name='userset[space]' value="0" <eq name="userset['space']" value="0">checked="true"</eq> >所有人(不包括你Of黑NamesSingle User)</div><br>
+                              <div class="left mr5"><input type="radio" name='userset[space]' value="1" <eq name="userset['space']" value="1">checked="true"</eq> >IFollowersOf人</div>
+                            </div>
+                        </dd>
+		           </dl>
+						{:Addons::hook('home_account_privacy')}
+		           <dl class="set_basic"><dd><label>&nbsp;</label><input type="submit" class="btn_b" value="Save" /></dd></dl>
+		           </form> 
+		        </div><!-- Modify Password end  -->
+            </div>
+          </div>
+
+		  <!-- Modify Password -->
+          <div class="setItems">
+            <div class="setFold" rel="email" >
+              <h2>Blacklisted Names</h2>
+              <span class="txt1">Blacklisted Names Are Unable to Follow Your Comments. If You Follow Them , They will be removed from Blacklist.</span>
+            </div>
+            <div style="display:none;"  class="setItemsInfo">
+		      <div class="data"><!-- Modify Password begin  -->
+		            <ul>
+		            <php>if($blacklist){</php>
+		            <volist id="vo" name="blacklist">
+		                <li id="black_{$vo.fid}">
+		                    <div class="left alR" style="width: 15%;"><space uid="vo.fid" target="_blank">{uname}</space>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="release('{$vo.fid}')">Lifting </a></div>
+		                    <div class="left" style="width: 50%;">
+		                      <div class="right mr5">{$vo.ctime|friendLyDate}</div>
+		                    </div>
+		                </li>
+		             </volist>
+		             <php>}else{</php>
+		             	<li>
+		                    <div class="left" style="width: 50%;">
+		                      BlackListed Names List Temporarily Empty
+		                    </div>
+		                </li>
+		             <php>}</php>
+		             <li>
+		             	<form action="__URL__&act=setBlack" method="POST" >
+			            <input type="text" name="blackname" value="">
+			            <input type="submit" name="submit" value="Add">
+			            </form>
+		             </li>
+		           </ul>
+		        </div><!-- Modify Password end  -->
+            </div>
+          </div>
+          {:Addons::hook('home_account_privacy_bottom')}
+        <div class="c"></div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Right Content end  -->
+  <div class="c"></div>
+</div>
+</div>
+<!-- Content end --> 
+<include file="__THEME__/footer" />
+
+<script>
+	$(document).ready(function(){
+		var hs = document.location.hash;
+		changeModel( hs.replace('#','') );
+		$('.setFold').click(function(){
+			if( $(this).attr('class')=='setFold' ){
+				changeModel( $(this).attr('rel') );
+			}else{
+				$(this).removeClass('setUnfold');
+				$(this).next('.setItemsInfo').hide();
+			}
+			location.href='#'+$(this).attr('rel');
+		})
+	});
+	
+	//Switch OperatingModule 
+	function changeModel( type ){
+		var t = type || 'base';
+		$('.setFold').removeClass('setUnfold');
+		$('.setItemsInfo').hide();
+		var handle = $('div[rel="'+t+'"]');
+		handle.addClass('setUnfold');
+		handle.next('.setItemsInfo').show();
+	}
+
+	//Lifted Black NamesSingle 
+	function release(id){
+          $.get(U('home/Account/release'),{id:id},function(msg){
+             if(msg == 0){
+                ui.error('Lifting  Failed！');
+             }else{
+                ui.success('Lifting Success！');
+                $('#black_'+id).remove();
+                setTimeout("location.href = location.href",1000);               
+             }   
+          });  
+	}	
+</script>
