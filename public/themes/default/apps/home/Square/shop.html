@@ -1,0 +1,336 @@
+<include file="__THEME__/header" />
+<style type="text/css">
+<!--
+.wrap { margin: auto;width:982px;}
+.content_holder { margin: auto;width:982px;}
+a.add_atn {
+    background-image: url("__THEME__/images/share.gif");
+    background-repeat: no-repeat;
+    height: 24px;
+    line-height: 24px;
+	background-position: left top;
+	color: #1D8B74!important;
+    padding-left: 20px;
+    width: 42px;
+	font-weight:normal;
+}
+
+.btn_relation {
+    background-image: url("__THEME__/images/share.gif");
+    background-repeat: no-repeat;
+    height: 24px;
+    line-height: 24px;
+	background-position: left bottom;
+	color: #999999!important;
+    padding-left: 20px;
+    width: 32px;
+	font-weight:normal;
+}
+a.add_atn:hover {
+    background-position: -80px top;
+    color: #1D8B74;
+    text-decoration: none;
+}
+.btn_relation a{color:#999;!important}
+.btn_relation span,.btn_relation2 span { display:none;}
+
+.shop-item a.add_atn  {
+    background: url("__THEME__/images/attention-mail.gif") no-repeat scroll 0 0 transparent;
+    display: inline-block;
+    font-size: 14px;
+    height: 36px;
+    line-height: 36px;
+    padding-left: 63px;
+    vertical-align: middle;
+    width: 81px;
+	color: #fff!important;
+}
+.shop-item a.add_atn  {
+    background-position: 0 2px;
+    color: #FFFFFF;
+}
+.shop-item .btn_relation {
+    background: url("__THEME__/images/attention-mail.gif") no-repeat scroll 0 0 transparent;
+    display: inline-block;
+    font-size: 14px;
+    height: 36px;
+    line-height: 36px;
+    padding-left: 13px;
+    vertical-align: middle;
+    width: 131px;
+	color: #fff!important;
+}
+.shop-item .btn_relation  {
+	background-position: -161px 2px;
+    text-decoration: none;
+	text-align:center;
+}
+
+
+-->
+</style>
+<script>
+var showCount = {$showCount};
+$(document).ready(function(){
+	$(".checkall").click(function(){
+		var div = '#star_box_'+$(this).attr("cid");
+		if( this.checked == true ){
+			$(div+" input[name='followuid[]']").attr('checked',true);
+		}else{
+			$(div+" input[name='followuid[]']").removeAttr('checked');
+		}
+	});
+	var lastHideKey = {};
+	
+	$('.list_square').each(function(){
+	    var count = 0;
+	    var self = $(this);
+	    lastHideKey[$(this).attr('id')] = -1;
+	    $(this).children('div').each(function(key){
+	       count++;
+	       if(count <= showCount ){
+	           $(this).show();
+	           lastHideKey[self.attr('id')] = key;
+	       }
+	    });
+	});
+	$('.changes').each(function(){
+	    $(this).click(function(){
+	        var count = 0;
+	        var target = $(this).attr('star_target');
+	        var nowLast = lastHideKey[target];
+	        var size = $('#'+target).children('div').size();
+	        var self = $(this);
+	        $('#'+target).children('div').each(function(key){
+	             $(this).hide();
+	             if(key > nowLast && key <= nowLast +showCount){
+	                 $(this).show();
+	                 lastHideKey[target] = key;
+	                 if(key>=size-1){
+	                     self.hide();
+	                 }
+	                 //if($(this).eq(last)) self.hide();
+	             }
+	        });
+	    });
+	})
+});
+
+ function getChecked() {
+        var ids = new Array();
+        $.each($('li input:checked'), function(i, n){
+            ids.push( $(n).val() );
+        });
+        return ids;
+    }
+
+function dofollow(){
+  var ids = getChecked().toString();
+  if(ids == ''){
+    ui.error('请 Choose要FollowersOf人');
+  }
+  ids = ids.split(',');
+  if(ids != ''){
+      $.post(U('home/public/followuser'),{followuid:ids},function(text){
+          ui.success('FollowersSuccess');
+          setTimeout('location.href = location.href',1000);
+     });
+  }
+}
+</script>
+
+<div class="content_holder wrap">
+  <div class="content">
+  	<div id="jquery-certufyPersonCu" class="ranking">
+<h2 class="yahe"><span class="rankico"></span>Shop Top </h2>
+<ul class="userlist cf">
+
+<volist id="vo" name="topfollow">
+<li>
+<div class="starcontainer cf">
+<a href="{:U('home/space/index',array('uid'=>$vo['uid']))}" class="avatar" target="_blank" uid="{$vo.uid}" rel="face">
+<span class="redbg">{$key+1}</span>
+
+<img src="{$vo.uid|getUserFace}" title="{$vo.uid|getUserName}"/>
+</a>
+<p class="profile">
+<space uid="vo.uid" class="username">{uname}</space><br>
+<a target="_blank" class="number" href="{:U('home/space/follow',array('type'=>'follower', 'uid'=>$vo['uid']))}"><span id="cu_count">{$vo.count}</span>人Followers</a><br>
+
+
+
+<session name="userInfo">												
+<div id="follow_list_{$vo.uid}" >
+<php>if($mid!=$vo[uid]){</php>
+                        <script>document.write(followState('{:getFollowState($mid,$vo[uid])}','dolistfollow',{$vo.uid}))</script>
+                        <php>}</php>
+						</div>
+
+<else/>
+                        <a href="javascript:ui.quicklogin();" class="add_atn">加Followers</a>
+                        						
+</session>
+
+
+
+
+</p>
+</div>
+<div class="rk-profile">
+<php>
+						$userid = $vo['uid'];
+						$userdata = M('user_profile')->where("uid = $userid")->findAll() ;
+						if ($userdata){
+						foreach($userdata as $v){
+							$title=unserialize($v['data']);
+							
+						}
+						echo getShort($title['summary'],10,'..');
+						}
+							 </php> 
+
+
+</div>
+</li>
+ </volist>
+
+</ul>
+</div>
+
+
+
+<div id="jquery-certufyShop" class="shop-item">
+<h2 class="yahe">All Shops</h2>
+<div id="star_box_1">
+<!------>
+<form action="{:U('home/public/followuser')}" method="post">
+              <input type="hidden" name="doajax" value="1">
+
+
+
+<volist name="verified['data']" id="g">
+<div class="userlist list_square clearfix" id="list_{$g.uid}">
+
+<div class="user" style="display:none;">
+<div class="userinfo relative clr">
+<space uid="g.uid">{uavatar}</space>
+<php>if($mid >0 && $mid != $g['uid']) {</php>
+                     <input name="followuid[]" type="checkbox" value="{$g.uid}" class="ckbox" />
+                     <php>}</php>
+<p class="profile">
+<space uid="g.uid">{uname}</space>
+<span class="ctf-icon small-ctf-w"></span><br>
+<span class="star-profile">
+
+
+
+<php>
+						$userid = $g['uid'];
+						$userdata = M('user_profile')->where("uid = $userid")->findAll() ;
+						if ($userdata){
+						foreach($userdata as $v){
+							$title=unserialize($v['data']);
+							
+						}
+						echo getShort($title['summary'],12,'..');
+						}
+							 </php> 
+
+</span>
+</p>
+</div>
+ <php>$followInfo = getUserFollow($g['uid'])</php>
+<div class="useratten">
+<a target="_blank" href="{:U('home/Space/follow',array('type'=>'following', 'uid'=>$g['uid']))}"><span class="number">{$followInfo['following']}</span><span>Followers</span></a><a target="_blank" href="{:U('home/Space/follow',array('type'=>'follower', 'uid'=>$g['uid']))}"><span class="number">{$followInfo['follower']}</span><span>Fans</span></a><a target="_blank" href="{:U('home/Space/index',array('uid'=>$g['uid']))}"><span class="number">{$g['uid']|getBcuidCount}</span><span>Albums</span></a>
+</div>
+<div class="user-follow" id="follow_list_{$g.uid}">
+
+
+
+<session name="userInfo">												
+
+<php>if($mid!=$g[uid]){</php>
+                        <script>document.write(followState('{:getFollowState($mid,$g[uid])}','dolistfollow',{$g.uid}))</script>
+                        <php>}</php>
+						
+
+<else/>
+                        <a href="javascript:ui.quicklogin();" class="add_atn">加Followers</a>
+                        						
+</session>
+
+
+
+
+<!-- <a follow="false" id="followBtn" class="concern-ico" href="javascript:;"><em>Followers</em></a> -->
+</div>
+</div>
+<div class="boardlist clr">
+
+
+<php>
+$bcdata = M ( 'weibo_bc' )->where ( 'uid=' . $g['uid'] )->limit(3)->order('bc_id DESC')->findAll();
+foreach($bcdata as $v){
+</php>
+	
+			<div class="item">
+				<div class="mbox mt15"><div class="followlist"><h3 class="mboxTitle"><span class="number floatright">Total<b>{$v.bc_id|getCcCount}</b>张</span><span class="t" title="{$vo.title}">{$v.title|getShort=###, 10, '...'}</span></h3><div class="list">
+				<a href="{:U('home/Space/board',array('uid'=>$g['uid'], 'bc_id'=>$v['bc_id']))}">
+				<php>if(getCcCount($v['bc_id']) == 0 ){</php>
+				<img src="__THEME__/images/board_thumb.jpg">
+				<php>}else{</php>
+				{$v.bc_id|getCcpic}
+				<php>}</php>
+				</a></div>
+				
+				</div>
+				</div>
+				
+			</div>
+<php>}</php>
+
+</div>
+
+</div>
+
+
+</volist>
+
+
+<!------>
+<div class="star-button">
+<label>
+                    <input type="checkbox" class="checkall checkbox1" cid="1" value="b{$g.uid}">
+                    Select All
+                    </label>
+<session name="userInfo">												
+
+
+                  
+                      
+                    
+                    <!--<input type="button" value="FollowersSelected " class="btn_b" onclick="dofollow('#star_box_{$g.star_group_id}')" />-->
+                    <a id="allFollows" class="btn-xlarge-follow" href="javascript:;" onclick="dofollow()">Selected Followers </a>
+                   
+
+<else/>
+                        
+                      <a id="allFollows" class="btn-xlarge-follow" href="javascript:ui.quicklogin();">Selected Followers </a>   						
+</session>
+
+
+
+</div>
+</form>
+</div>
+<div class="page mb10">
+{$verified.html}
+</div>
+<div class="clearfix"></div>
+</div>
+
+
+    
+  </div>
+</div>
+<include file="__THEME__/footer" /> 
